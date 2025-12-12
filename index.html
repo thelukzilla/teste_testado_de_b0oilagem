@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protocolo Anna Beatriz</title>
+    
+    <!-- Tailwind CSS (Estilos Prontos) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <script>
       tailwind.config = {
         theme: {
@@ -15,24 +23,32 @@
             fontFamily: {
               sans: ['Poppins', 'sans-serif'],
             },
-            colors: {
-              pastel: {
-                pink: '#ffe4e6',
-                purple: '#f3e8ff',
-                blue: '#e0f2fe',
-                green: '#dcfce7',
-                text: '#4b5563',
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out',
+              'slide-up': 'slideUp 0.5s ease-out',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
               }
             }
           }
         }
       }
     </script>
+
     <style>
       body {
-        background-color: #fdf2f8; /* Soft pink fallback */
+        background-color: #fdf2f8;
       }
-      /* Custom Range Slider Styling */
+      
+      /* Slider Customizado */
       input[type=range] {
         -webkit-appearance: none;
         width: 100%;
@@ -43,35 +59,334 @@
         height: 24px;
         width: 24px;
         border-radius: 50%;
-        background: #ec4899;
+        background: #9333ea; /* Purple-600 */
         cursor: pointer;
         margin-top: -10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: transform 0.1s;
+      }
+      input[type=range]::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
       }
       input[type=range]::-webkit-slider-runnable-track {
         width: 100%;
-        height: 4px;
+        height: 6px;
         cursor: pointer;
         background: #e5e7eb;
         border-radius: 9999px;
       }
-      input[type=range]:focus::-webkit-slider-runnable-track {
-        background: #fbcfe8;
+      
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      .option-card:active {
+        transform: scale(0.98);
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "lucide-react": "https://esm.sh/lucide-react@^0.561.0"
-  }
-}
-</script>
 </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<body class="min-h-screen bg-gradient-to-br from-rose-100 via-slate-100 to-teal-100 flex items-center justify-center p-4 font-sans text-slate-700 overflow-hidden">
+
+    <!-- Elementos Decorativos de Fundo -->
+    <div class="absolute top-[-10%] right-[-5%] w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse-slow"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-72 h-72 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse-slow" style="animation-delay: 2s"></div>
+
+    <!-- App Container -->
+    <main class="relative w-full max-w-md glass-effect shadow-2xl rounded-3xl overflow-hidden animate-slide-up" id="app-container">
+        <div class="p-6 md:p-8">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-white/50 rounded-xl shadow-sm border border-white/60" id="header-icon-container">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-pink-500"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Formulário de Auditoria</h1>
+                        <h2 class="text-lg font-bold text-gray-800 leading-tight">Anna Beatriz</h2>
+                    </div>
+                </div>
+                <div class="bg-green-100 px-3 py-1 rounded-full text-[10px] font-bold text-green-700 tracking-wide">
+                    EM ABERTO
+                </div>
+            </header>
+
+            <!-- Barra de Progresso -->
+            <div class="w-full h-1.5 bg-gray-200 rounded-full mb-8 overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-pink-400 to-purple-500 w-[20%] transition-all duration-500 ease-in-out"></div>
+            </div>
+
+            <!-- Área de Conteúdo Dinâmico -->
+            <div id="content-area" class="min-h-[300px] flex flex-col justify-between">
+                <!-- O conteúdo será injetado aqui pelo JavaScript -->
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- DADOS DO QUIZ ---
+        const questions = [
+            {
+                id: 1,
+                type: 'choice',
+                icon: 'map-pin',
+                iconColor: 'text-pink-500',
+                question: "Se a sua energia hoje fosse um local de BH, qual seria?",
+                options: [
+                    { text: "Modo Capivara Chill (Pampulha, grama e água de coco)", emoji: "🌿" },
+                    { text: "Vibe Madame em Lourdes (Ar condicionado e taça de vinho)", emoji: "🍷" },
+                    { text: "Dora Aventureira (Trilha, Cachoeira ou Mirante)", emoji: "🧗‍♀️" },
+                    { text: "Caos Cultural do Centro (Maletta, Sapucaí ou Mercado Novo)", emoji: "🍻" },
+                ]
+            },
+            {
+                id: 2,
+                type: 'choice',
+                icon: 'utensils',
+                iconColor: 'text-purple-500',
+                question: "O estômago roncou. Qual a estratégia nutricional?",
+                options: [
+                    { text: "Café da tarde de vó (Broa, pão de queijo e cafezinho)", emoji: "☕" },
+                    { text: "Jantar de adulto funcional (Massas, Risotos ou Gastronomia)", emoji: "🍝" },
+                    { text: "Baixa Gastronomia (Torresmo, Fígado com Jiló e Cerveja)", emoji: "🥓" },
+                    { text: "Street Food (Hambúrguer ou Pizza pra comer com a mão)", emoji: "🍕" },
+                ]
+            },
+            {
+                id: 3,
+                type: 'choice',
+                icon: 'music',
+                iconColor: 'text-indigo-500',
+                question: "Para o entretenimento, qual a pedida?",
+                options: [
+                    { text: "Assistir algo quieto (Teatro ou Cinema)", emoji: "🎭" },
+                    { text: "Fofocar horrores (Barzinho com mesa na calçada)", emoji: "🗣️" },
+                    { text: "Ouvir música alta (Balada ou Bar com DJ)", emoji: "🪩" },
+                    { text: "Só andar e julgar casas bonitas (Passeio na Praça da Liberdade)", emoji: "💅" },
+                ]
+            },
+            {
+                id: 4,
+                type: 'scale',
+                icon: 'calendar-clock',
+                iconColor: 'text-rose-500',
+                question: "Nível de Prioridade: De 1 a 10, qual a necessidade disso rolar antes do dia 20?",
+                scaleConfig: {
+                    min: 1,
+                    max: 10,
+                    minLabel: "Sem pressa (paz de jah)",
+                    maxLabel: "URGENTE (preciso sair)"
+                }
+            }
+        ];
+
+        // --- ESTADO DO APP ---
+        let currentStep = 0;
+        let answers = [];
+        let note = "";
+        let sliderValue = 5;
+
+        // --- ELEMENTOS DOM ---
+        const contentArea = document.getElementById('content-area');
+        const progressBar = document.getElementById('progress-bar');
+        const headerIconContainer = document.getElementById('header-icon-container');
+
+        // --- FUNÇÕES ---
+
+        function updateProgress() {
+            const totalSteps = questions.length + 1; // +1 para a tela final
+            const percentage = ((currentStep + 1) / totalSteps) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
+        function updateHeaderIcon(iconName, colorClass) {
+            headerIconContainer.innerHTML = `<i data-lucide="${iconName}" class="w-6 h-6 ${colorClass}"></i>`;
+            lucide.createIcons();
+        }
+
+        function handleOptionClick(text) {
+            answers.push(text);
+            nextStep();
+        }
+
+        function handleSliderSubmit() {
+            answers.push(`Nível ${sliderValue}/10`);
+            nextStep();
+        }
+
+        function nextStep() {
+            currentStep++;
+            renderStep();
+        }
+
+        function handleEmailSubmit() {
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.innerHTML;
+            
+            // Estado de Loading
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.innerHTML = `
+                <i data-lucide="loader-2" class="w-5 h-5 animate-spin mr-2"></i>
+                <span>Processando...</span>
+            `;
+            lucide.createIcons();
+
+            // Simular delay do sistema
+            setTimeout(() => {
+                // ⚠️ AQUI: COLOQUE SEU EMAIL
+                const EMAIL_DESTINO = "seu_email@gmail.com";
+                
+                const subject = "Dados de Auditoria - Anna Beatriz";
+                const body = `RESUMO DA COLETA DE DADOS:
+                
+1. Vibe: ${answers[0]}
+2. Nutrição: ${answers[1]}
+3. Lazer: ${answers[2]}
+4. Prioridade/Prazo: ${answers[3]}
+
+OBSERVAÇÕES:
+${note || "N/A"}
+
+Fim do relatório.`;
+
+                window.location.href = `mailto:${EMAIL_DESTINO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                // Resetar botão (opcional, já que o usuário vai sair da página)
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }, 2000);
+        }
+
+        function renderStep() {
+            updateProgress();
+            
+            // Animação de entrada
+            contentArea.classList.remove('animate-fade-in');
+            void contentArea.offsetWidth; // Trigger reflow
+            contentArea.classList.add('animate-fade-in');
+
+            // 1. TELA FINAL
+            if (currentStep >= questions.length) {
+                updateHeaderIcon('sparkles', 'text-amber-500');
+                
+                contentArea.innerHTML = `
+                    <div class="flex flex-col h-full animate-slide-up">
+                        <div class="text-center mb-6">
+                            <div class="inline-block p-4 bg-green-100 rounded-full mb-4 shadow-sm">
+                                <i data-lucide="clipboard-check" class="w-8 h-8 text-green-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Coleta Finalizada</h3>
+                            <p class="text-gray-500 text-sm mt-1">Preencha os campos finais para homologação.</p>
+                        </div>
+
+                        <div class="mb-6 flex-grow">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2 ml-1">
+                                Considerações Finais, Alergias ou Avisos:
+                            </label>
+                            <textarea
+                                id="final-note"
+                                class="w-full p-4 rounded-2xl bg-gray-50 border-2 border-gray-100 focus:border-purple-300 focus:ring-0 focus:outline-none transition-colors text-gray-700 resize-none h-32 text-sm shadow-inner"
+                                placeholder="Ex: Tenho medo de pombos, sou alérgica a camarão..."
+                                oninput="note = this.value"
+                            ></textarea>
+                        </div>
+
+                        <button
+                            id="submit-btn"
+                            onclick="handleEmailSubmit()"
+                            class="w-full py-4 bg-gray-900 text-white rounded-xl font-semibold shadow-xl shadow-gray-200 flex items-center justify-center gap-2 hover:bg-black transition-transform hover:scale-[1.02] active:scale-95"
+                        >
+                            <span>Enviar</span>
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                        
+                        <p class="text-[10px] text-center text-gray-400 mt-4 uppercase tracking-wider">
+                            Sistema de envio seguro via cliente de e-mail
+                        </p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            // 2. PERGUNTAS
+            const q = questions[currentStep];
+            updateHeaderIcon(q.icon, q.iconColor);
+
+            let html = `
+                <div class="animate-slide-up">
+                    <h3 class="text-xl font-bold mb-8 text-gray-800 leading-snug">
+                        ${q.question}
+                    </h3>
+            `;
+
+            if (q.type === 'choice') {
+                html += `<div class="space-y-3">`;
+                q.options.forEach((opt, idx) => {
+                    // Stagger animation delay in style
+                    const delay = idx * 100;
+                    html += `
+                        <button 
+                            onclick="handleOptionClick('${opt.text}')"
+                            class="option-card w-full text-left p-4 rounded-xl bg-white border border-transparent shadow-sm hover:shadow-md hover:border-purple-200 hover:bg-purple-50 transition-all duration-300 group flex items-center justify-between animate-slide-up"
+                            style="animation-fill-mode: backwards; animation-delay: ${delay}ms"
+                        >
+                            <span class="flex items-center gap-3">
+                                <span class="text-2xl filter grayscale group-hover:grayscale-0 transition-all duration-300">${opt.emoji}</span>
+                                <span class="text-sm font-medium text-gray-600 group-hover:text-gray-900">${opt.text}</span>
+                            </span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300 group-hover:text-purple-400 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1"></i>
+                        </button>
+                    `;
+                });
+                html += `</div>`;
+            } else if (q.type === 'scale') {
+                html += `
+                    <div class="py-4">
+                        <div class="relative mb-12 px-2">
+                            <div class="text-center mb-8">
+                                <span id="slider-display" class="text-5xl font-bold text-purple-600 font-mono tracking-tighter transition-all">5</span>
+                            </div>
+                            
+                            <input 
+                                type="range" 
+                                min="${q.scaleConfig.min}" 
+                                max="${q.scaleConfig.max}" 
+                                value="5"
+                                oninput="sliderValue = this.value; document.getElementById('slider-display').innerText = this.value"
+                                class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                            />
+                            
+                            <div class="flex justify-between mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                <span>${q.scaleConfig.minLabel}</span>
+                                <span>${q.scaleConfig.maxLabel}</span>
+                            </div>
+                        </div>
+                        
+                        <button
+                            onclick="handleSliderSubmit()"
+                            class="w-full py-4 bg-gray-900 text-white rounded-xl font-semibold shadow-xl shadow-gray-200 flex items-center justify-center gap-2 hover:bg-black transition-transform hover:scale-[1.02] active:scale-95"
+                        >
+                            Confirmar Resposta <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            contentArea.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // --- INICIALIZAÇÃO ---
+        renderStep();
+
+    </script>
+</body>
 </html>
